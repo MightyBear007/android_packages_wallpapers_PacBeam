@@ -1,4 +1,4 @@
-package com.android.phasebeam;
+package com.android.pacbeam;
 
 import static android.renderscript.Sampler.Value.NEAREST;
 import static android.renderscript.Sampler.Value.WRAP;
@@ -31,12 +31,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import android.util.Log;
 
-public class PhaseBeamRS implements SharedPreferences.OnSharedPreferenceChangeListener {
-    public static String LOG_TAG = "PhaseBeam";
-    public static final int DOT_COUNT = 28;
+public class PacBeamRS implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static String LOG_TAG = "PacBeam";
+    public static final int DOT_COUNT = 30;
     private Resources mRes;
     private RenderScriptGL mRS;
-    private ScriptC_phasebeam mScript;
+    private ScriptC_pacbeam mScript;
     int mHeight;
     int mWidth;
 
@@ -64,7 +64,7 @@ public class PhaseBeamRS implements SharedPreferences.OnSharedPreferenceChangeLi
         if (!mInited) {
             mDensityDPI = dpi;
             mContext = context;
-            mSharedPref = mContext.getSharedPreferences(PhaseBeamSelector.KEY_PREFS,
+            mSharedPref = mContext.getSharedPreferences(PacBeamSelector.KEY_PREFS,
                     Context.MODE_PRIVATE);
             mSharedPref.registerOnSharedPreferenceChangeListener(this);
 
@@ -87,7 +87,7 @@ public class PhaseBeamRS implements SharedPreferences.OnSharedPreferenceChangeLi
             smb3.addIndexSetType(Mesh.Primitive.POINT);
             mBeamMesh = smb3.create();
 
-            mScript = new ScriptC_phasebeam(mRS, mRes, R.raw.phasebeam);
+            mScript = new ScriptC_pacbeam(mRS, mRes, R.raw.pacbeam);
             mScript.set_dotMesh(mDotMesh);
             mScript.set_beamMesh(mBeamMesh);
             mScript.bind_dotParticles(mDotParticles);
@@ -119,7 +119,7 @@ public class PhaseBeamRS implements SharedPreferences.OnSharedPreferenceChangeLi
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(PhaseBeamSelector.KEY_ENABLED)) {
+        if (key.equals(PacBeamSelector.KEY_ENABLED)) {
             loadTextures();
         }
         makeNewState();
@@ -127,14 +127,14 @@ public class PhaseBeamRS implements SharedPreferences.OnSharedPreferenceChangeLi
 
     private void makeNewState() {
         Float3 adjust;
-        if (mSharedPref.getBoolean(PhaseBeamSelector.KEY_ENABLED,
+        if (mSharedPref.getBoolean(PacBeamSelector.KEY_ENABLED,
                     mRes.getBoolean(R.bool.recolor_enabled))) {
             adjust = new Float3(
-                    mSharedPref.getFloat(PhaseBeamSelector.KEY_HUE,
+                    mSharedPref.getFloat(PacBeamSelector.KEY_HUE,
                         Float.valueOf(mRes.getString(R.string.hue))),
-                    mSharedPref.getFloat(PhaseBeamSelector.KEY_SATURATION,
+                    mSharedPref.getFloat(PacBeamSelector.KEY_SATURATION,
                         Float.valueOf(mRes.getString(R.string.saturation))),
-                    mSharedPref.getFloat(PhaseBeamSelector.KEY_BRIGHTNESS,
+                    mSharedPref.getFloat(PacBeamSelector.KEY_BRIGHTNESS,
                         Float.valueOf(mRes.getString(R.string.brightness))));
         } else {
             adjust = new Float3(-1.0f, 1.0f, 1.0f);
@@ -227,7 +227,7 @@ public class PhaseBeamRS implements SharedPreferences.OnSharedPreferenceChangeLi
     }
 
     private void loadTextures() {
-        boolean recolor = mSharedPref.getBoolean(PhaseBeamSelector.KEY_ENABLED, false);
+        boolean recolor = mSharedPref.getBoolean(PacBeamSelector.KEY_ENABLED, false);
         mDotAllocation = loadTexture(recolor ? R.drawable.dot_grey : R.drawable.dot);
         mBeamAllocation = loadTexture(recolor ? R.drawable.beam_grey : R.drawable.beam);
         mScript.set_textureDot(mDotAllocation);

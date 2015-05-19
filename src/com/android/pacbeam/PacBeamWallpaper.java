@@ -1,4 +1,4 @@
-package com.android.phasebeam;
+package com.android.pacbeam;
 
 import android.app.Service;
 import android.graphics.PixelFormat;
@@ -10,7 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
-public class PhaseBeamWallpaper extends WallpaperService {
+public class PacBeamWallpaper extends WallpaperService {
 
     @Override
     public Engine onCreateEngine() {
@@ -19,7 +19,7 @@ public class PhaseBeamWallpaper extends WallpaperService {
 
     private class RenderScriptEngine extends Engine {
         private RenderScriptGL mRenderScript = null;
-        private PhaseBeamRS mWallpaperRS = null;
+        private PacBeamRS mWallpaperRS = null;
         private int mDensityDPI;
 
         @Override
@@ -60,7 +60,7 @@ public class PhaseBeamWallpaper extends WallpaperService {
             super.onSurfaceCreated(surfaceHolder);
 
             RenderScriptGL.SurfaceConfig sc = new RenderScriptGL.SurfaceConfig();
-            mRenderScript = new RenderScriptGL(PhaseBeamWallpaper.this, sc);
+            mRenderScript = new RenderScriptGL(PacBeamWallpaper.this, sc);
             mRenderScript.setPriority(RenderScript.Priority.NORMAL);
         }
 
@@ -80,8 +80,8 @@ public class PhaseBeamWallpaper extends WallpaperService {
             }
 
             if (mWallpaperRS == null) {
-                mWallpaperRS = new PhaseBeamRS();
-                mWallpaperRS.init(PhaseBeamWallpaper.this, mDensityDPI,
+                mWallpaperRS = new PacBeamRS();
+                mWallpaperRS.init(PacBeamWallpaper.this, mDensityDPI,
                         mRenderScript, getResources(), width, height);
                 mWallpaperRS.start();
             }

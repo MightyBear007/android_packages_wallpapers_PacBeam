@@ -21,7 +21,7 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := $(call all-subdir-java-files) $(call all-renderscript-files-under, src)
 
-LOCAL_PACKAGE_NAME := PhaseBeam
+LOCAL_PACKAGE_NAME := PacBeam
 LOCAL_CERTIFICATE := shared
 LOCAL_RENDERSCRIPT_TARGET_API := 17
 
